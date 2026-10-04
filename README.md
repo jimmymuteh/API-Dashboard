@@ -1,24 +1,22 @@
 # API Analytics Dashboard
 
-A Python analytics application that consumes multi-endpoint mock API data, aggregates member fitness and skill metrics, visualizes weekly activity via terminal bar graphs, and exports summarized analytics to structured JSON payload files.
+A Python utility that fetches mock API data for member fitness metrics and course enrollments, prints an ASCII activity chart to the terminal, and exports the summary to `output.json`.
 
----
+## Pipeline Overview
 
-## Core Architecture & Pipeline Steps
+1. **Fetch Raw Data**: Calls mock endpoints for member tracking (`fetch_members`), 7-day step totals (`fetch_weekly_summary`), and skill enrollments (`fetch_active_skills`).
+2. **Data Aggregation**:
+   - Calculates step goal progress (>= 10,000 steps), sleep averages, and protocol split (OMAD vs 2MAD).
+   - Identifies peak activity days across the week.
+   - Ranks skills by total enrollment.
+3. **Display & Export**: Prints formatted tables and ASCII bar graphs to the terminal, then writes the full report to `output.json`.
 
-The application processes data through three distinct architectural stages:
+## Output Preview
 
-### Step 1: Preview All Three Endpoints
-Fetches raw data structures from mock API functions:
-* **`fetch_members()`**: Individual fitness tracking data (steps, fasting protocols, sleep hours, cold shower adherence).
-* **`fetch_weekly_summary()`**: Daily total step aggregations across a 7-day period (`2024-W47`).
-* **`fetch_active_skills()`**: Skill enrollment records and instructor assignments.
+- **Terminal Output**: Displays summary statistics and ASCII activity graphs.
+- **JSON Export**: Saves aggregated results to `output.json`.
 
-### Step 2: Process Endpoint Datasets
-Calculates summary statistics using optimized Python data structures and algorithms:
-* **`process_members()`**: Computes step goal achievement ratios ($\ge 10,000$ steps), average daily activity, cold shower counts, protocol breakdowns (`OMAD` vs `2MAD`), and top performer identification.
-* **`process_weekly()`**: Identifies peak activity days, computes total volume, and calculates weekly daily averages.
-* **`process_skills()`**: Ranks skill popularity by enrollment counts and computes total active course numbers.
+## Setup & Execution
 
-### Step 3: Terminal Display & JSON Serialization
-Renders formatted summaries and ASCII bar charts directly to the terminal, and saves a serialized `output.json` export file.
+```
+python main.py
